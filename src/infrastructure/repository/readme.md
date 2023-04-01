@@ -1,0 +1,2 @@
+# Repository(implement)層
+DBへの永続化や読み取りを責務とするプログラムを記述する層
