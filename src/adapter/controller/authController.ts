@@ -11,21 +11,21 @@ const authService = new AuthService(new UserRepositoryMysql)
 router.post("/signin",
   passport.authenticate("local", { session: false }),
   async (req, res) => {
-    const userCredential: SigninCredential = req.body;
-    const dto = await authService.signIn(userCredential);
+    const credential: SigninCredential = req.body;
+    const token = await authService.signIn(credential);
     return res.status(200).json({
       message: "Signin Succeeded.",
-      token: dto.token,
-      user: dto.user
-    })
+      token: token
+    });
   })
 
-router.post("/signup", (req, res) => {
-  const userCredential: SignupCredential = req.body;
-  authService.signUp(userCredential);
-  return res.status(200).send({
-    message: 'API to sign up.',
-  })
+router.post("/signup", async (req, res) => {
+  const credential: SignupCredential = req.body;
+  const token = await authService.signUp(credential);
+  return res.status(200).json({
+    message: 'Sign up succeeded.',
+    token: token
+  });
 })
 
 export const authRouter = router;
