@@ -21,8 +21,10 @@ export class UserRepositoryMysql extends MysqlRepositoryBase implements UserRepo
         }
     }
 
-    create(user: User): Promise<void> {
-        throw new Error("Method not implemented.");
+    async create(user: User): Promise<void> {
+        const query = `INSERT INTO ${this.TABLE_NAME} (id, display_name) VALUES (?, ?);`;
+        const results = await this.executeQuery(query, [user.id, user.displayName]);
+        console.log(results);
     }
 
     update(user: User): Promise<void> {
