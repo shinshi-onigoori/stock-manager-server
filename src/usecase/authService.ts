@@ -4,6 +4,7 @@ import * as jwt from "jsonwebtoken";
 import { firebaseAuth } from "../firebase";
 import { User } from "../domain/entity/user";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { LOGGER } from "../logging";
 
 export class AuthService {
     readonly TOKEN_EXPIRE_TIME = "10m";
@@ -25,6 +26,7 @@ export class AuthService {
         const token = jwt.sign(payload, process.env.JWT_PRIVATE as string, {
             expiresIn: this.TOKEN_EXPIRE_TIME,
         });
+        LOGGER.debug("[AuthService::signIn] Token generated.");
         return {
             displayName: authenticatedUser.displayName,
             token: token
@@ -37,6 +39,8 @@ export class AuthService {
             token: string
         }> {
         const registeredCredential = await createUserWithEmailAndPassword(firebaseAuth, credentialFromRequest.email, credentialFromRequest.password);
+        LOGGER.debug("[AuthService::signUp] New user created.");
+        LOGGER.debug(`[AuthService::signUp] Email: ${credentialFromRequest.email}`);
         const newUser: User = {
             id: registeredCredential.user.uid,
             displayName: credentialFromRequest.displayName
@@ -50,6 +54,7 @@ export class AuthService {
         const token = jwt.sign(payload, process.env.JWT_PRIVATE as string, {
             expiresIn: this.TOKEN_EXPIRE_TIME,
         });
+        LOGGER.debug("[AuthService::signUp] Token generated.");
         return {
             displayName: credentialFromRequest.displayName,
             token: token

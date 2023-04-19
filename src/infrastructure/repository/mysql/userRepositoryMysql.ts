@@ -1,7 +1,8 @@
-import { RowDataPacket } from "mysql2";
+import { ResultSetHeader, RowDataPacket } from "mysql2";
 import { User } from "../../../domain/entity/user"
 import { UserRepository } from "../../../domain/repository/userRepository";
 import { MysqlRepositoryBase } from "./mysqlRepositoryBase";
+import { LOGGER } from "../../../logging";
 
 export class UserRepositoryMysql extends MysqlRepositoryBase implements UserRepository {
     constructor() {
@@ -13,18 +14,22 @@ export class UserRepositoryMysql extends MysqlRepositoryBase implements UserRepo
     async findById(id: string): Promise<User> {
         const query = `SELECT id, display_name FROM ${this.TABLE_NAME} WHERE id = ?;`;
         const results = await this.executeQuery(query, [id]);
-        const result = results[0] as RowDataPacket[];
-        const userRow = result[0];
-        return {
-            id: userRow.id,
-            displayName: userRow.display_name
-        }
+        LOGGER.debug("[UserRepositoryMysql::findById] Query executed.");
+        const resultRow = (results[0] as RowDataPacket[])[0];
+        const user = {
+            id: resultRow.id,
+            displayName: resultRow.display_name
+        };
+        LOGGER.debug(`[UserRepositoryMysql::findById] User: ${user}`);
+        return user;
     }
 
     async create(user: User): Promise<void> {
         const query = `INSERT INTO ${this.TABLE_NAME} (id, display_name) VALUES (?, ?);`;
         const results = await this.executeQuery(query, [user.id, user.displayName]);
-        console.log(results);
+        LOGGER.debug("[UserRepositoryMysql::create] Query executed.");
+        const resultSet = results[0] as ResultSetHeader
+        LOGGER.debug(`[UserRepositoryMysql::create] QueryResult: ${resultSet}`);
     }
 
     update(user: User): Promise<void> {
