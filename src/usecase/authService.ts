@@ -13,7 +13,11 @@ export class AuthService {
         this.userRepository = userRepository;
     }
 
-    async signIn(credentialFromRequest: SigninCredential): Promise<string> {
+    async signIn(credentialFromRequest: SigninCredential)
+        : Promise<{
+            displayName: string,
+            token: string
+        }> {
         const userId: string = firebaseAuth.currentUser?.uid!
         const authenticatedUser = await this.userRepository.findById(userId);
         // 1 jwtのtokenを作成
@@ -21,10 +25,17 @@ export class AuthService {
         const token = jwt.sign(payload, process.env.JWT_PRIVATE as string, {
             expiresIn: this.TOKEN_EXPIRE_TIME,
         });
-        return token;
+        return {
+            displayName: authenticatedUser.displayName,
+            token: token
+        };
     }
 
-    async signUp(credentialFromRequest: SignupCredential): Promise<string> {
+    async signUp(credentialFromRequest: SignupCredential)
+        : Promise<{
+            displayName: string,
+            token: string
+        }> {
         const registeredCredential = await createUserWithEmailAndPassword(firebaseAuth, credentialFromRequest.email, credentialFromRequest.password);
         const newUser: User = {
             id: registeredCredential.user.uid,
@@ -39,6 +50,9 @@ export class AuthService {
         const token = jwt.sign(payload, process.env.JWT_PRIVATE as string, {
             expiresIn: this.TOKEN_EXPIRE_TIME,
         });
-        return token;
+        return {
+            displayName: credentialFromRequest.displayName,
+            token: token
+        };
     }
 }
