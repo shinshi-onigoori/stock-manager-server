@@ -20,7 +20,7 @@ app.use("/auth", authRouter);
 
 try {
   app.listen(PORT, () => {
-    LOGGER.debug(`dev server running at: http://localhost:${PORT}/`):
+    LOGGER.debug(`dev server running at: http://localhost:${PORT}/`);
   })
 } catch (e) {
   LOGGER.error("[Application][index] Unhandled error.");
