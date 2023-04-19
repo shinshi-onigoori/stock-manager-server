@@ -1,4 +1,4 @@
-import { UserCredential } from "../domain/entity/userCredential";
+import { SigninCredential } from "../domain/entity/userCredential";
 import { UserRepository } from "../domain/repository/userRepository";
 import * as jwt from "jsonwebtoken";
 import { firebaseAuth } from "../firebase";
@@ -15,7 +15,7 @@ export class AuthService {
         this.userRepository = userRepository;
     }
 
-    async signIn(userCredential: UserCredential): Promise<SignInDTO> {
+    async signIn(userCredential: SigninCredential): Promise<SignInDTO> {
         const userId: string = firebaseAuth.currentUser?.uid!
         const authenticatedUser = await this.userRepository.findById(userId);
         // 1 jwtのtokenを作成
@@ -29,7 +29,7 @@ export class AuthService {
         };
     }
 
-    signUp() {
+    signUp(userCredential: SigninCredential) {
         /**
          * TODO
          * ユーザ作成処理作る
