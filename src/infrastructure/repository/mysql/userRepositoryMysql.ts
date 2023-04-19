@@ -20,7 +20,7 @@ export class UserRepositoryMysql extends MysqlRepositoryBase implements UserRepo
             id: resultRow.id,
             displayName: resultRow.display_name
         };
-        LOGGER.debug(`[UserRepositoryMysql::findById] User: ${user}`);
+        LOGGER.debug(`[UserRepositoryMysql::findById] User: {\n\tid: ${user.id}\n\tdisplayName: ${user.displayName}\n\t}`);
         return user;
     }
 
@@ -29,7 +29,7 @@ export class UserRepositoryMysql extends MysqlRepositoryBase implements UserRepo
         const results = await this.executeQuery(query, [user.id, user.displayName]);
         LOGGER.debug("[UserRepositoryMysql::create] Query executed.");
         const resultSet = results[0] as ResultSetHeader
-        LOGGER.debug(`[UserRepositoryMysql::create] QueryResult: ${resultSet}`);
+        LOGGER.debug(`[UserRepositoryMysql::create] Inserted Record: ${resultSet.affectedRows}`);
     }
 
     update(user: User): Promise<void> {

@@ -11,7 +11,7 @@ const authService = new AuthService(new UserRepositoryMysql)
 router.post("/signin",
   passport.authenticate("local", { session: false }),
   async (req, res) => {
-    LOGGER.debug(`${req.method} -> ${req.url}`);
+    LOGGER.debug(`[authController] ${req.method} -> ${req.url}`);
     const credential: SigninCredential = req.body;
     const result = await authService.signIn(credential);
     return res.status(200).json({
@@ -22,7 +22,7 @@ router.post("/signin",
   })
 
 router.post("/signup", async (req, res) => {
-  LOGGER.debug(`${req.method} -> ${req.url}`);
+  LOGGER.debug(`[authController] ${req.method} -> ${req.url}`);
   const credential: SignupCredential = req.body;
   const result = await authService.signUp(credential);
   return res.status(200).json({
