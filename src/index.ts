@@ -5,7 +5,7 @@ import cookieParser from "cookie-parser";
 
 import { authRouter } from './adapter/controller/authController'
 import passport from './infrastructure/authentication/authentication'
-import { CONNECTION } from "./infrastructure/dbDriver/mysqlConnector";
+import { CONNECTION } from "./infrastructure/driver/mysqlConnector";
 
 const app: Application = express()
 const PORT = 8080
