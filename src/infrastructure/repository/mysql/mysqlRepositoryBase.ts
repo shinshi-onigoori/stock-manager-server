@@ -1,5 +1,5 @@
 
-import { CONNECTION } from "../../dbDriver/mysqlConnector";
+import { CONNECTION } from "../../driver/mysqlConnector";
 
 export abstract class MysqlRepositoryBase {
     constructor() { }

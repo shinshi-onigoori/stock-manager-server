@@ -7,6 +7,7 @@ import {
   StrategyOptions,
 } from "passport-jwt";
 import { firebaseAuth } from "../../firebase";
+import { LOGGER } from "../../logging";
 
 // 1 passport-localの設定
 passport.use(
@@ -20,12 +21,13 @@ passport.use(
       signInWithEmailAndPassword(firebaseAuth, username, password)
         .then((userCredential) => {
           // Signed in
-          console.log(userCredential);
+          LOGGER.debug("[authentication][LocalStrategy] Authentication succeeded.")
+          LOGGER.debug(`[authentication][LocalStrategy] UID: ${userCredential.user.uid}`)
           return done(null, username);
         })
         .catch((error) => {
-          console.log(error.code);
-          console.log(error.message);
+          LOGGER.error("[authentication][LocalStrategy] Authentication failed.")
+          LOGGER.debug(`[authentication][LocalStrategy] Error: ${error}`)
           return done(null, false, {
             message: "メールアドレスまたはパスワードが違います",
           })

@@ -1,5 +1,6 @@
 node_modules
-secret.toml
 .env
 firebase-client.json
+log4js-setting.json
 yarn-error.log
+app.log
