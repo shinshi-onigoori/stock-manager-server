@@ -1,6 +1,7 @@
 import * as dotenv from "dotenv";
 dotenv.config({ path: "./.env" });
 import express, { Application } from 'express';
+import cors from "cors";
 import cookieParser from "cookie-parser";
 
 import { authRouter } from './adapter/controller/authController';
@@ -10,6 +11,12 @@ import { LOGGER } from "./logging";
 
 const app: Application = express();
 const PORT = 8080;
+
+app.use(cors({
+  origin: 'http://localhost:3000', //アクセス許可するオリジン
+  credentials: true, //レスポンスヘッダーにAccess-Control-Allow-Credentials追加
+  optionsSuccessStatus: 200 //レスポンスstatusを200に設定
+}))
 
 app.use(passport.initialize());
 app.use(express.json());
