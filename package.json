@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@types/cookie-parser": "^1.4.3",
+    "@types/dotenv": "^8.2.0",
     "@types/log4js": "^2.3.5",
     "@types/passport": "^1.0.12",
     "@types/passport-jwt": "^3.0.8",
