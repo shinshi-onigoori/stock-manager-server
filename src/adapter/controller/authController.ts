@@ -2,7 +2,7 @@ import express from 'express';
 import { AuthService } from '../../usecase/authService';
 import { UserRepositoryMysql } from '../../infrastructure/repository/mysql/userRepositoryMysql';
 import passport from '../../infrastructure/authentication/authentication';
-import { SigninCredential, SignupCredential } from '../../domain/entity/userCredential';
+import { SigninCredential, SignupCredential } from '../../entity/domain/userCredential';
 import { LOGGER } from '../../logging';
 
 const router = express.Router()

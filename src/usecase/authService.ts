@@ -1,8 +1,8 @@
-import { SigninCredential, SignupCredential } from "../domain/entity/userCredential";
+import { SigninCredential, SignupCredential } from "../entity/domain/userCredential";
 import { UserRepository } from "../domain/repository/userRepository";
 import * as jwt from "jsonwebtoken";
 import { firebaseAuth } from "../firebase";
-import { User } from "../domain/entity/user";
+import { User } from "../entity/domain/user";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { LOGGER } from "../logging";
 
@@ -16,6 +16,7 @@ export class AuthService {
 
     async signIn(credentialFromRequest: SigninCredential)
         : Promise<{
+            userId: string,
             displayName: string,
             token: string
         }> {
@@ -28,6 +29,7 @@ export class AuthService {
         });
         LOGGER.debug("[AuthService::signIn] Token generated.");
         return {
+            userId: userId,
             displayName: authenticatedUser.displayName,
             token: token
         };

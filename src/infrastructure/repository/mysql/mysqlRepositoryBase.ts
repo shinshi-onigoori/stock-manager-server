@@ -2,7 +2,10 @@
 import { CONNECTION } from "../../driver/mysqlConnector";
 
 export abstract class MysqlRepositoryBase {
-    constructor() { }
+    protected readonly TABLE_NAME: string;
+    constructor() { 
+        this.TABLE_NAME = ("");
+    }
 
     protected async executeQuery(query: string, values: Array<number | string | boolean>) {
         const connection = await CONNECTION
