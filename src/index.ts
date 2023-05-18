@@ -3,11 +3,11 @@ dotenv.config({ path: "./.env" });
 import express, { Application } from 'express';
 import cors from "cors";
 import cookieParser from "cookie-parser";
-
 import { authRouter } from './adapter/controller/authController';
 import passport from './infrastructure/authentication/authentication';
 import { CONNECTION } from "./infrastructure/driver/mysqlConnector";
 import { LOGGER } from "./logging";
+import { portfolioRouter } from "./adapter/controller/portfolioController";
 
 const app: Application = express();
 const PORT = 8080;
@@ -24,6 +24,8 @@ app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser());
 
 app.use("/auth", authRouter);
+app.use("/portfolio", passport.authenticate("jwt", { session: false }), portfolioRouter);
+
 
 try {
   app.listen(PORT, () => {
@@ -42,3 +44,4 @@ try {
     LOGGER.error(e.message);
   }
 }
+
