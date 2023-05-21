@@ -17,7 +17,8 @@ router.post("/signin",
     return res.status(200).json({
       message: "Signin Succeeded.",
       token: result.token,
-      displayName: result.displayName
+      displayName: result.displayName,
+      userId: result.userId
     });
   })
 
