@@ -1,5 +1,5 @@
 import { ResultSetHeader, RowDataPacket } from "mysql2";
-import { User } from "../../../domain/entity/user"
+import { User } from "../../../entity/domain/user"
 import { UserRepository } from "../../../domain/repository/userRepository";
 import { MysqlRepositoryBase } from "./mysqlRepositoryBase";
 import { LOGGER } from "../../../logging";
@@ -8,7 +8,7 @@ export class UserRepositoryMysql extends MysqlRepositoryBase implements UserRepo
     constructor() {
         super();
     }
-    private readonly TABLE_NAME = "user";
+    readonly TABLE_NAME = "user";
     // TODO テーブル構造そのものを示すクラス(列挙型?)を作って、プログラム上の定数としてカラムを扱えたほうが、SQLを生成するの楽かも
 
     async findById(id: string): Promise<User> {

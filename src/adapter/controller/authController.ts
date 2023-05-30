@@ -2,7 +2,7 @@ import express from 'express';
 import { AuthService } from '../../usecase/authService';
 import { UserRepositoryMysql } from '../../infrastructure/repository/mysql/userRepositoryMysql';
 import passport from '../../infrastructure/authentication/authentication';
-import { SigninCredential, SignupCredential } from '../../domain/entity/userCredential';
+import { SigninCredential, SignupCredential } from '../../entity/domain/userCredential';
 import { LOGGER } from '../../logging';
 
 const router = express.Router()
@@ -17,7 +17,8 @@ router.post("/signin",
     return res.status(200).json({
       message: "Signin Succeeded.",
       token: result.token,
-      displayName: result.displayName
+      displayName: result.displayName,
+      userId: result.userId
     });
   })
 
